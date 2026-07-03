@@ -28,6 +28,32 @@ class Solution:
         return res
 
 
+class Solution2:
+    def solveNQueens(self, n: int) -> List[List[str]]:
+        ans = []
+        col = [0] * n
+
+        def valid(r, c):
+            # 枚举0-r-1的行
+            for R in range(r):
+                C = col[R]
+                if r + c == R + C or r - c == R - C:
+                    return False
+            return True
+
+        def dfs(r, s):
+            if r == n:
+                ans.append(["." * c + "Q" + "." * (n - 1 - c) for c in col])
+                return
+            for c in s:
+                if valid(r, c):
+                    col[r] = c
+                    dfs(r + 1, s - {c})
+
+        dfs(0, set(range(n)))
+        return ans
+
+
 # --- 本地测试 ---
 if __name__ == "__main__":
     print(Solution().solveNQueens(4))
